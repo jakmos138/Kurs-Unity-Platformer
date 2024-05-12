@@ -4,28 +4,36 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    
     public float speed;
     public float jumpPower;
     public bool grounded;
     public Transform groundCheck;
     public Rigidbody2D rb;
     public LayerMask groundLayer;
+
+    public float attDelay;
     public GameObject projectile;
     public Transform gunArm;
+    public Transform shootPoint;
 
     private Camera worldCamera;
     private Vector2 movement;
+    private float curAttDelay;
 
     private void Start()
     {
         worldCamera = FindObjectOfType<Camera>();
+        curAttDelay = 0f;
     }
 
     void Update()
     {
         grounded = Physics2D.Raycast(groundCheck.position, Vector2.down, 0.1f, groundLayer);
         movement = new Vector2(Input.GetAxisRaw("Horizontal"), grounded ? (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space) ? jumpPower : rb.velocity.y) : rb.velocity.y);
+        curAttDelay -= Time.deltaTime;
         Aim();
+        Shoot();
     }
 
     void FixedUpdate()
@@ -58,5 +66,18 @@ public class PlayerController : MonoBehaviour
         }
 
         gunArm.localScale = localScale;
+    }
+
+    private void Shoot()
+    {
+        if (Input.GetMouseButton(0) && curAttDelay <= 0f)
+        {
+            Vector3 mousePos = GetMousePos();
+            Vector3 aimDirection = (mousePos - transform.position).normalized;
+            GameObject bullet = Instantiate(projectile, shootPoint.position, Quaternion.identity);
+            bullet.GetComponent<Rigidbody2D>().velocity = aimDirection * 10f;
+
+            curAttDelay = attDelay;
+        }
     }
 }
