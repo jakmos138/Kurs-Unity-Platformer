@@ -14,7 +14,7 @@ public class Target : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Projectile")) 
+        if (collision.CompareTag("Projectile")) 
         {
             Activate();
         }
