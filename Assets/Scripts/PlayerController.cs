@@ -10,13 +10,8 @@ public class PlayerController : MonoBehaviour
     public Transform groundCheck;
     public Rigidbody2D rb;
     public LayerMask groundLayer;
-
+    public GameObject projectile;
     private Vector2 movement;
-
-    void Start()
-    {
-        
-    }
 
     void Update()
     {
