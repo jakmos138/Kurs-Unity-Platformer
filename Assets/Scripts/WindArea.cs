@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class WindArea : MonoBehaviour
@@ -10,7 +8,7 @@ public class WindArea : MonoBehaviour
 
     private void Start()
     {
-        if (windPower < 0)
+        if (windPower < 0f)
         {
             arrows.rotation = Quaternion.Euler(0f, 0f, 180f);
         }
